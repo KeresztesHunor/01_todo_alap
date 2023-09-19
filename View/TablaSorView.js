@@ -13,13 +13,13 @@ class TablaSor
     constructor(szuloElem, elem, index)
     {
         this.#index = index;
-        szuloElem.append(ujTagekKozeIr("tr", { class: elem.kesz ? "bg-success" : "" }, egyszerreTobbTagetIr([
+        szuloElem.append(ujTagekKozeIr("tr", elem.kesz ? { class: "bg-success" } : {}, egyszerreTobbTagetIr([
             dictionaryElemeketIrKi(elem, (kulcs, ertek) => ujTagekKozeIr("td", { class: "border-2" }, ertek)),
             ujTagekKozeIr("td", { class: "border-2" }, ujTagekKozeIr("button", { class: "kesz-gomb btn" }, "✅")),
             ujTagekKozeIr("td", { class: "border-2" }, ujTagekKozeIr("button", { class: "torol-gomb btn" }, "❌"))
         ])));
         this.#sor = szuloElem.children("tr:last-child");
-        const TD_ELEM = szuloElem.children("td");
+        const TD_ELEM = this.#sor.children("td");
         const KESZ_GOMB = TD_ELEM.children(".kesz-gomb");
         const TOROL_GOMB = TD_ELEM.children(".torol-gomb");
         const EVENT = {
