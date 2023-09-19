@@ -1,4 +1,4 @@
-import { dictionaryElemeketIrKi, egyszerreTobbTagetIr, ujTagekKozeIr } from "../qualityOfLifeMetodusok.js";
+import { dictionaryElemeketIrKi, tagbeTageketIr, tagekKozeIr } from "../qualityOfLifeMetodusok.js";
 
 class TablaSor
 {
@@ -13,11 +13,19 @@ class TablaSor
     constructor(szuloElem, elem, index)
     {
         this.#index = index;
-        szuloElem.append(ujTagekKozeIr("tr", elem.kesz ? { class: "bg-success" } : {}, egyszerreTobbTagetIr([
-            dictionaryElemeketIrKi(elem, (kulcs, ertek) => ujTagekKozeIr("td", { class: "border-2" }, ertek)),
-            ujTagekKozeIr("td", { class: "border-2" }, ujTagekKozeIr("button", { class: "kesz-gomb btn" }, "✅")),
-            ujTagekKozeIr("td", { class: "border-2" }, ujTagekKozeIr("button", { class: "torol-gomb btn" }, "❌"))
-        ])));
+        szuloElem.append(
+            tagbeTageketIr("tr", { class: elem.kesz ? "bg-success" : "" }, [
+                dictionaryElemeketIrKi(elem, (kulcs, ertek) => {
+                    return tagekKozeIr("td", { class: "border-2" }, ertek)
+                }),
+                tagbeTageketIr("td", { class: "border-2" }, [
+                    tagekKozeIr("button", { class: "kesz-gomb btn" }, "✅")
+                ]),
+                tagbeTageketIr("td", { class: "border-2" }, [
+                    tagekKozeIr("button", { class: "torol-gomb btn" }, "❌")
+                ])
+            ])
+        );
         this.#sor = szuloElem.children("tr:last-child");
         const TD_ELEM = this.#sor.children("td");
         const KESZ_GOMB = TD_ELEM.children(".kesz-gomb");

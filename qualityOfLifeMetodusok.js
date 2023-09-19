@@ -1,8 +1,8 @@
-export function egyszerreTobbTagetIr(tagLista = [])
+export function tagbeTageketIr(tag, parameterek = {}, tagLista = [])
 {
     let txt = "";
     tagLista.forEach(elem => txt += elem);
-    return txt;
+    return tagekKozeIr(tag, parameterek, txt);
 }
 
 export function dictionaryElemeketIrKi(dict, metodus)
@@ -15,7 +15,7 @@ export function dictionaryElemeketIrKi(dict, metodus)
     return txt;
 }
 
-export function ujTagekKozeIr(tag, parameterek = {}, tartalom = "")
+export function tagekKozeIr(tag, parameterek = {}, tartalom = "")
 {
     return `<${tag}${parametereketKiir(parameterek)}>${tartalom}</${tag}>`;
 }
