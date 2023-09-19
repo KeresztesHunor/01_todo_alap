@@ -6,25 +6,34 @@ class Controller
 {
     constructor()
     {
-        const UJ_ADAT_ELEM = $(".ujadat");
+        const UJ_ADAT_ELEM = $("#ujadat");
         new Urlap(UJ_ADAT_ELEM);
-        const TAROLO_ELEM = $(".tarolo");
+        const TAROLO_ELEM = $("#tarolo");
         const MODEL = new Model();
-        new Megjelenit(TAROLO_ELEM, MODEL.lista);
-        $(window).on("ujElemHozzaadasaEvent", (event) => {
+        this.#megjelenit(TAROLO_ELEM, MODEL.lista);
+        this.#customEventreFeliratkozas("ujElemHozzaadasaEvent", (event) => {
             MODEL.ujAdat(event.detail);
-            TAROLO_ELEM.empty();
-            new Megjelenit(TAROLO_ELEM, MODEL.lista);
+            this.#megjelenit(TAROLO_ELEM, MODEL.lista);
         });
-        $(window).on("keszGombraKattintottEvent", (event) => {
-            event.detail.sor.toggleClass("bg-success");
+        this.#customEventreFeliratkozas("keszGombraKattintottEvent", (event) => {
+            event.detail.toggleTevekenysegKesz();
             MODEL.toggleTevekenysegKesz(event.detail.index);
         });
-        $(window).on("torolGombraKattintottEvent", (event) => {
+        this.#customEventreFeliratkozas("torolGombraKattintottEvent", (event) => {
             MODEL.adatTorlese(event.detail.index);
-            TAROLO_ELEM.empty();
-            new Megjelenit(TAROLO_ELEM, MODEL.lista);
+            this.#megjelenit(TAROLO_ELEM, MODEL.lista);
         });
+    }
+
+    #customEventreFeliratkozas(eventNev, metodus)
+    {
+        $(window).on(eventNev, metodus);
+    }
+
+    #megjelenit(taroloElem, lista)
+    {
+        taroloElem.empty();
+        new Megjelenit(taroloElem, lista);
     }
 }
 

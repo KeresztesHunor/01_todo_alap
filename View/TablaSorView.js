@@ -1,44 +1,37 @@
+import { dictionaryElemeketIrKi, egyszerreTobbTagetIr, ujTagekKozeIr } from "../qualityOfLifeMetodusok.js";
+
 class TablaSor
 {
-    #keszGomb;
-    #torolGomb;
+    //int
+
     #index;
+
+    //HTML element
+
     #sor;
-    #keszGombraKattintottEvent;
-    #torolGombraKattintottEvent;
 
     constructor(szuloElem, elem, index)
     {
         this.#index = index;
-        let txt = "";
-        for (const kulcs in elem)
-        {
-            txt += `<td class="border-2">${elem[kulcs]}</td>`
-        }
-        szuloElem.append(`
-            <tr class="${elem.kesz ? "bg-success" : ""}">
-                ${txt}
-                <td class="border-2">
-                    <button class="kesz-gomb btn">✅</button>
-                </td>
-                <td class="border-2">
-                    <button class="torol-gomb btn">❌</button>
-                </td>
-            </tr>
-        `);
+        szuloElem.append(ujTagekKozeIr("tr", { class: elem.kesz ? "bg-success" : "" }, egyszerreTobbTagetIr([
+            dictionaryElemeketIrKi(elem, (kulcs, ertek) => ujTagekKozeIr("td", { class: "border-2" }, ertek)),
+            ujTagekKozeIr("td", { class: "border-2" }, ujTagekKozeIr("button", { class: "kesz-gomb btn" }, "✅")),
+            ujTagekKozeIr("td", { class: "border-2" }, ujTagekKozeIr("button", { class: "torol-gomb btn" }, "❌"))
+        ])));
         this.#sor = szuloElem.children("tr:last-child");
-        this.#keszGomb = this.#sor.children("td").children(".kesz-gomb");
-        this.#torolGomb = this.#sor.children("td").children(".torol-gomb");
+        const TD_ELEM = szuloElem.children("td");
+        const KESZ_GOMB = TD_ELEM.children(".kesz-gomb");
+        const TOROL_GOMB = TD_ELEM.children(".torol-gomb");
         const EVENT = {
             detail: this
         }
-        this.#keszGombraKattintottEvent = new CustomEvent("keszGombraKattintottEvent", EVENT);
-        this.#torolGombraKattintottEvent = new CustomEvent("torolGombraKattintottEvent", EVENT);
-        this.#keszGomb.on("click", () => {
-            window.dispatchEvent(this.#keszGombraKattintottEvent);
+        const KESZ_GOMBRA_KATTINTOTT_EVENT = new CustomEvent("keszGombraKattintottEvent", EVENT);
+        const TOROL_GOMBRA_KATTINTOTT_EVENT = new CustomEvent("torolGombraKattintottEvent", EVENT);
+        KESZ_GOMB.on("click", () => {
+            window.dispatchEvent(KESZ_GOMBRA_KATTINTOTT_EVENT);
         });
-        this.#torolGomb.on("click", () => {
-            window.dispatchEvent(this.#torolGombraKattintottEvent);
+        TOROL_GOMB.on("click", () => {
+            window.dispatchEvent(TOROL_GOMBRA_KATTINTOTT_EVENT);
         });
     }
 
@@ -47,9 +40,9 @@ class TablaSor
         return this.#index;
     }
 
-    get sor()
+    toggleTevekenysegKesz()
     {
-        return this.#sor;
+        this.#sor.toggleClass("bg-success");
     }
 }
 
