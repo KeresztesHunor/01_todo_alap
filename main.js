@@ -1,6 +1,5 @@
-import Megjelenit from "./Megjelenit.js";
-import { TODOLIST2 } from "./adatok.js";
+import Controller from "./Controller/Controller.js";
 
 $(() => {
-    new Megjelenit(".tarolo", TODOLIST2);
+    new Controller();
 });
