@@ -6,24 +6,22 @@ class Controller
 {
     constructor()
     {
-        const TAROLO_ELEM = $(".tarolo");
         const UJ_ADAT_ELEM = $(".ujadat");
+        new Urlap(UJ_ADAT_ELEM);
+        const TAROLO_ELEM = $(".tarolo");
         const MODEL = new Model();
         new Megjelenit(TAROLO_ELEM, MODEL.lista);
-        new Urlap(UJ_ADAT_ELEM);
-        $(window).on("ujElemHozzaadasaEvent", event => {
-            console.log(event.detail.tevekenyseg + "\n" + event.detail.hatarido);
+        $(window).on("ujElemHozzaadasaEvent", (event) => {
+            MODEL.ujAdat(event.detail);
             TAROLO_ELEM.empty();
-            new Megjelenit(TAROLO_ELEM, event.detail);
+            new Megjelenit(TAROLO_ELEM, MODEL.lista);
         });
-        $(window).on("keszGombraKattintott", event => {
-            console.log(event.detail.sor);
+        $(window).on("keszGombraKattintottEvent", (event) => {
             event.detail.sor.toggleClass("bg-success");
-            MODEL.tevekenysegKeszKapcsolasa(event.detail.index);
+            MODEL.toggleTevekenysegKesz(event.detail.index);
         });
-        $(window).on("torolGombraKattintott", event => {
-            console.log(event.detail.sor);
-            MODEL.adatTorlese(event.detail);
+        $(window).on("torolGombraKattintottEvent", (event) => {
+            MODEL.adatTorlese(event.detail.index);
             TAROLO_ELEM.empty();
             new Megjelenit(TAROLO_ELEM, MODEL.lista);
         });

@@ -4,6 +4,8 @@ class TablaSor
     #torolGomb;
     #index;
     #sor;
+    #keszGombraKattintottEvent;
+    #torolGombraKattintottEvent;
 
     constructor(szuloElem, elem, index)
     {
@@ -27,11 +29,16 @@ class TablaSor
         this.#sor = szuloElem.children("tr:last-child");
         this.#keszGomb = this.#sor.children("td").children(".kesz-gomb");
         this.#torolGomb = this.#sor.children("td").children(".torol-gomb");
+        const EVENT = {
+            detail: this
+        }
+        this.#keszGombraKattintottEvent = new CustomEvent("keszGombraKattintottEvent", EVENT);
+        this.#torolGombraKattintottEvent = new CustomEvent("torolGombraKattintottEvent", EVENT);
         this.#keszGomb.on("click", () => {
-            window.dispatchEvent(new CustomEvent("keszGombraKattintott", { detail: this }));
+            window.dispatchEvent(this.#keszGombraKattintottEvent);
         });
         this.#torolGomb.on("click", () => {
-            window.dispatchEvent(new CustomEvent("torolGombraKattintott", { detail: this.#index }));
+            window.dispatchEvent(this.#torolGombraKattintottEvent);
         });
     }
 

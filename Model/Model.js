@@ -21,10 +21,10 @@ class Model
 
     adatTorlese(index)
     {
-        this.#lista.pop(index);
+        this.#lista.splice(index, 1);
     }
 
-    tevekenysegKeszKapcsolasa(index)
+    toggleTevekenysegKesz(index)
     {
         this.#lista[index].kesz = !this.#lista[index].kesz;
     }

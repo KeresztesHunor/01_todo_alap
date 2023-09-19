@@ -1,5 +1,3 @@
-import { TODOLIST2 } from "../adatok.js";
-
 class Urlap
 {
     #tevekenysegInputElem;
@@ -21,16 +19,13 @@ class Urlap
         this.#hataridoInputElem = $("#iHatarido");
         this.#submitGomb = szuloElem.children("div:last-child").children("button");
         this.#submitGomb.on("click", () => {
-            this.#adatotListabaIr(this.#tevekenysegInputElem.val(), this.#hataridoInputElem.val().replaceAll("-", "."));
-            window.dispatchEvent(new CustomEvent("ujElemHozzaadasaEvent", { detail: TODOLIST2 }));
-        });
-    }
-
-    #adatotListabaIr(tevekenyseg, hatarido)
-    {
-        TODOLIST2.push({
-            tevekenyseg: tevekenyseg,
-            hatarido: hatarido
+            window.dispatchEvent(new CustomEvent("ujElemHozzaadasaEvent", {
+                detail: {
+                    tevekenyseg: this.#tevekenysegInputElem.val(),
+                    hatarido: this.#hataridoInputElem.val().replaceAll("-", "."),
+                    kesz: false
+                }
+            }));
         });
     }
 }
